@@ -68,11 +68,11 @@ void Maze::PrintMazeGnuplot(const std::string& outputprefix, bool solution) cons
 
   double xmin, ymin, xmax, ymax;
   std::tie(xmin, ymin, xmax, ymax) = GetCoordinateBounds();
-  gnuplotfile << "set xrange[" << xmin - 1 << ":" << xmax + 1 << "]\n";
-  gnuplotfile << "set yrange[" << ymin - 1 << ":" << ymax + 1 << "]\n";
+  gnuplotfile << "set xrange[" << xmin  << ":" << xmax  << "]\n";
+  gnuplotfile << "set yrange[" << ymin  << ":" << ymax  << "]\n";
 
-  int xresolution = (xmax - xmin + 2) * 30,
-      yresolution = (ymax - ymin + 2) * 30;
+  int xresolution = (xmax - xmin ) * 20,
+      yresolution = (ymax - ymin ) * 20;
   gnuplotfile << "set term pngcairo mono enhanced size " << xresolution << ","
               << yresolution << "\n";
 

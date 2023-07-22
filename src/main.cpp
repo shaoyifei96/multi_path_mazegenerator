@@ -68,8 +68,8 @@ void usage(std::ostream &out) {
 int main(int argc, char *argv[]) {
   std::string outputprefix = "maze", infile = "";
   std::map<std::string, int> optionmap{{"-m", 0},  {"-a", 0},     {"-s", 20},
-                                       {"-w", 20}, {"-h", 20},    {"-o", 0},
-                                       {"-f", 0},  {"--help", 0}, {"-t", 0}};
+                                       {"-w", 10}, {"-h", 5},    {"-o", 0},
+                                       {"-f", 0},  {"--help", 0}, {"-t", 1}};
 
   for (int i = 1; i < argc; i++) {
     if (optionmap.find(argv[i]) == optionmap.end()) {
