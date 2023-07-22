@@ -9,6 +9,7 @@
 #include "spanningtreealgorithm.h"
 #include <memory>
 #include <vector>
+#include <random>
 
 class Maze {
  public:
@@ -28,6 +29,10 @@ class Maze {
   void Solve(const std::vector<std::pair<int, int>>&);
   virtual std::tuple<double, double, double, double> GetCoordinateBounds()
       const = 0;
+  std::random_device randomdevice;
+  std::mt19937 generator;
+
+      
 };
 
 #endif /* end of include guard: MAZE_H */

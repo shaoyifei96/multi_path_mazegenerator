@@ -5,7 +5,9 @@
 #include "depthfirstsearch.h"
 
 Maze::Maze(int vertices, int startvertex, int endvertex)
-    : vertices_(vertices), startvertex_(startvertex), endvertex_(endvertex) {}
+    : vertices_(vertices), startvertex_(startvertex), endvertex_(endvertex) {
+      generator = std::mt19937(randomdevice());
+    }
 
 void Maze::InitialiseGraph() {
   adjacencylist_.clear();
@@ -41,12 +43,23 @@ void Maze::Solve(const std::vector<std::pair<int, int>>& edges) {
 
 void Maze::RemoveBorders(const std::vector<std::pair<int, int>>& edges) {
   for (const auto& [u, v] : edges) {
+
     adjacencylist_[u].erase(
         std::find_if(adjacencylist_[u].begin(), adjacencylist_[u].end(),
                      [v = v](const Edge& e) { return std::get<0>(e) == v; }));
     adjacencylist_[v].erase(
         std::find_if(adjacencylist_[v].begin(), adjacencylist_[v].end(),
                      [u = u](const Edge& e) { return std::get<0>(e) == u; }));
+  }
+  //remove some more elements from adjacency list
+  for (int i = 0; i < vertices_; ++i) {
+    for (auto it = adjacencylist_[i].begin(); it != adjacencylist_[i].end();) {
+      if (std::uniform_real_distribution<double>(0, 1)(generator) > 0.95) {
+        it = adjacencylist_[i].erase(it);
+      } else {
+        ++it;
+      }
+    }
   }
 }
 
