@@ -51,11 +51,18 @@ void Maze::RemoveBorders(const std::vector<std::pair<int, int>>& edges) {
         std::find_if(adjacencylist_[v].begin(), adjacencylist_[v].end(),
                      [u = u](const Edge& e) { return std::get<0>(e) == u; }));
   }
-  //remove some more elements from adjacency list
+  //remove some more elements from adjacency list 
   for (int i = 0; i < vertices_; ++i) {
     for (auto it = adjacencylist_[i].begin(); it != adjacencylist_[i].end();) {
       if (std::uniform_real_distribution<double>(0, 1)(generator) > 0.95) {
         it = adjacencylist_[i].erase(it);
+        //check the target vertex and remove the edge from its adjacency list as well
+        for (auto it2 = adjacencylist_[std::get<0>(*it)].begin(); it2 != adjacencylist_[std::get<0>(*it)].end(); ++it2) {
+          if (std::get<0>(*it2) == i) {
+            adjacencylist_[std::get<0>(*it)].erase(it2);
+            break;
+          }
+        }
       } else {
         ++it;
       }
