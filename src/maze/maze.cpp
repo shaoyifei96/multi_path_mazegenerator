@@ -4,6 +4,7 @@
 #include <iostream>
 #include "depthfirstsearch.h"
 
+
 Maze::Maze(int vertices, int startvertex, int endvertex)
     : vertices_(vertices), startvertex_(startvertex), endvertex_(endvertex) {
       generator = std::mt19937(randomdevice());
@@ -54,6 +55,18 @@ void Maze::RemoveBorders(const std::vector<std::pair<int, int>>& edges) {
   //remove some more elements from adjacency list 
   for (int i = 0; i < vertices_; ++i) {
     for (auto it = adjacencylist_[i].begin(); it != adjacencylist_[i].end();) {
+      // if the selected edge is not part of the border, then consider removing it
+      auto [x_lo, y_lo, x_hi, y_hi] = GetCoordinateBounds();
+
+      // std::cout<<"Boundary: "<<a << " " << b << " " << c << " " << d << std::endl;
+      auto [x0, y0, x1, y1] =  std::get<1>(*it)->GetCoordinates();
+      
+      if (x0 == x_lo || x1 == x_hi || y0 == y_lo || y1 == y_hi) {
+        std::cout<<"Skipping: "<<x0 << " " << y0 << " " << x1 << " " << y1 << std::endl;
+        ++it;
+        continue;
+      }
+      // std::cout<<"Edge: "<<e << " " << f << " " << g << " " << h << std::endl;
       if (std::uniform_real_distribution<double>(0, 1)(generator) > 0.95) {
         it = adjacencylist_[i].erase(it);
         //check the target vertex and remove the edge from its adjacency list as well

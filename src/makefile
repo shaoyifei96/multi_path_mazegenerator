@@ -1,6 +1,6 @@
 CXX ?= g++
 CXXFLAGS = -W -Wall -Wno-unused-result -O3 -I algorithms -I mazetypes -I maze \
-	-std=c++11
+	-std=c++17
 
 all: mazegen
 
